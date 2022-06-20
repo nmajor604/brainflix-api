@@ -6,6 +6,7 @@ const { v4: uuidv4 } = require('uuid');
 const cors = require('cors');
 
 app.use(express.json());
+app.use(express.static('public/images'));
 app.use(cors());
 
 // start Express on port 8080
