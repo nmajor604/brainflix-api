@@ -25,13 +25,12 @@ app.get('/:id', (req, res) => {
   });
 
 app.post('/upload/:id', (req, res) => {
-  const { name, program, grade } = req.body;
+  const { title, description } = req.body;
 
   videos.push({
     id: uuidv4(),
     title,
-    description,
-    grade,
+    description
   });
 
   res.json(videos);
