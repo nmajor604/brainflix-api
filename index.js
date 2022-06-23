@@ -9,11 +9,11 @@ app.use(express.json());
 app.use(express.static('public/images'));
 app.use(cors());
 
-app.get('/api/v1/students', (req, res) => {
+app.get('/', (req, res) => {
   res.json(videos);
 });
 
-app.get('/api/v1/students/:id', (req, res) => {
+app.get('/:id', (req, res) => {
     const {
         params: {
           id
@@ -24,7 +24,7 @@ app.get('/api/v1/students/:id', (req, res) => {
       return res.json(videos);
   });
 
-app.post('/api/v1/students', (req, res) => {
+app.post('/upload/:id', (req, res) => {
   const { name, program, grade } = req.body;
 
   videos.push({
@@ -37,7 +37,7 @@ app.post('/api/v1/students', (req, res) => {
   res.json(videos);
 });
 
-app.delete('/api/v1/students/:id', (req, res) => {
+app.delete('/:id', (req, res) => {
     const {
       params: {
         id
