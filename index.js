@@ -1,30 +1,32 @@
-// initialize Express in project
 const express = require('express');
 const app = express();
 const port = process.env.PORT || process.argv[2] || 8080;
 const { v4: uuidv4 } = require('uuid');
 const cors = require('cors');
+const fs = require('fs');
+const videos = require('./data/videos.json')
+
 
 app.use(express.json());
 app.use(express.static('public/images'));
 app.use(cors());
 
-app.get('/', (req, res) => {
+app.get('/videos', (req, res) => {
   res.json(videos);
 });
 
-app.get('/:id', (req, res) => {
+app.get('/videos/:id', (req, res) => {
     const {
         params: {
           id
         }
       } = req;
     
-      videos = videos.filter(({ id: currentVideoId }) => id === currentVideoId);
-      return res.json(videos);
+      const videosList = videos.filter(({ id: currentVideoId }) => id === currentVideoId);
+      return res.json(videosList);
   });
 
-app.post('/upload/:id', (req, res) => {
+app.post('/videos/:id', (req, res) => {
   const { title, description } = req.body;
 
   videos.push({
@@ -47,7 +49,6 @@ app.delete('/:id', (req, res) => {
     return res.json(videos);
   });
 
-// start Express on port 8080
 app.listen(8080, () => {
     console.log('Server Started on http://localhost:8080');
     console.log('Press CTRL + C to stop server');
