@@ -11,7 +11,7 @@ app.use(express.json());
 // app.use(express.static('public/images'));
 app.use(cors());
 
-app.get('/videos', (req, res) => {
+app.get('http://localhost:8080/videos', (req, res) => {
   
   res.json(videos);
 });
@@ -28,7 +28,7 @@ app.get('http://localhost:8080/videos/:id', (req, res) => {
       console.log(parsedVideos);
   });
 
-app.post('http://localhost:8080/videos/:id', (req, res) => {
+app.post('/videos/:id', (req, res) => {
   const { title, description } = req.body;
   console.log('req body', req.body);
   const newVideo = {
