@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = process.env.PORT || process.argv[2] || 8080;
+const port = 8080;
 const { v4: uuidv4 } = require('uuid');
 const cors = require('cors');
 const fs = require('fs');
@@ -8,7 +8,7 @@ const videos = require('./data/videos.json')
 
 
 app.use(express.json());
-app.use(express.static('public/images'));
+// app.use(express.static('public/images'));
 app.use(cors());
 
 app.get('/videos', (req, res) => {
@@ -16,7 +16,7 @@ app.get('/videos', (req, res) => {
   res.json(videos);
 });
 
-app.get('/videos/:id', (req, res) => {
+app.get('http://localhost:8080/videos/:id', (req, res) => {
     const {
         params: {
           id
@@ -28,14 +28,15 @@ app.get('/videos/:id', (req, res) => {
       console.log(parsedVideos);
   });
 
-app.post('/videos/:id', (req, res) => {
+app.post('http://localhost:8080/videos/:id', (req, res) => {
   const { title, description } = req.body;
-
+  console.log('req body', req.body);
   const newVideo = {
     id: uuidv4(),
-    title: title,
-    description: description
+    title: req.body.title,
+    description: req.body.description
   };
+  console.log('newvideo', newVideo);
   const newVideoString = JSON.stringify(newVideo);
   fs.writeFile('videos.json', newVideoString, (err) => {
     if (err) {
