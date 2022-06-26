@@ -12,6 +12,7 @@ app.use(express.static('public/images'));
 app.use(cors());
 
 app.get('/videos', (req, res) => {
+  
   res.json(videos);
 });
 
@@ -21,33 +22,42 @@ app.get('/videos/:id', (req, res) => {
           id
         }
       } = req;
-    
-      const videosList = videos.filter(({ id: currentVideoId }) => id === currentVideoId);
-      return res.json(videosList);
+      // const videoList = JSON(videos);
+      const parsedVideos = videos.find(({ id: currentVideoId }) => id === currentVideoId);
+      res.json(parsedVideos);
+      console.log(parsedVideos);
   });
 
 app.post('/videos/:id', (req, res) => {
   const { title, description } = req.body;
 
-  videos.push({
+  const newVideo = {
     id: uuidv4(),
-    title,
-    description
+    title: title,
+    description: description
+  };
+  const newVideoString = JSON.stringify(newVideo);
+  fs.writeFile('videos.json', newVideoString, (err) => {
+    if (err) {
+      console.log(err);
+    }
+    console.log('New video uploaded')
+
   });
 
   res.json(videos);
 });
 
-app.delete('/:id', (req, res) => {
-    const {
-      params: {
-        id
-      }
-    } = req;
+// app.delete('/:id', (req, res) => {
+//     const {
+//       params: {
+//         id
+//       }
+//     } = req;
   
-    videos = videos.filter(({ id: currentVideoId }) => id !== currentVideoId);
-    return res.json(videos);
-  });
+//     videos = videos.filter(({ id: currentVideoId }) => id !== currentVideoId);
+//     return res.json(videos);
+//   });
 
 app.listen(8080, () => {
     console.log('Server Started on http://localhost:8080');
