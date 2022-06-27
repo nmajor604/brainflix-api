@@ -1,66 +1,20 @@
 const express = require('express');
 const app = express();
-const port = 8080;
+const PORT = process.env.PORT || process.argv[2] || 8080;
 const { v4: uuidv4 } = require('uuid');
 const cors = require('cors');
 const fs = require('fs');
-const videos = require('./data/videos.json')
+const videoRoutes = require('./routes/videos');
 
+app.use('/routes/videos', videoRoutes);
 
 app.use(express.json());
 // app.use(express.static('public/images'));
 app.use(cors());
 
-app.get('http://localhost:8080/videos', (req, res) => {
-  
-  res.json(videos);
-});
 
-app.get('http://localhost:8080/videos/:id', (req, res) => {
-    const {
-        params: {
-          id
-        }
-      } = req;
-      // const videoList = JSON(videos);
-      const parsedVideos = videos.find(({ id: currentVideoId }) => id === currentVideoId);
-      res.json(parsedVideos);
-      console.log(parsedVideos);
-  });
 
-app.post('/videos/:id', (req, res) => {
-  const { title, description } = req.body;
-  console.log('req body', req.body);
-  const newVideo = {
-    id: uuidv4(),
-    title: req.body.title,
-    description: req.body.description
-  };
-  console.log('newvideo', newVideo);
-  const newVideoString = JSON.stringify(newVideo);
-  fs.writeFile('videos.json', newVideoString, (err) => {
-    if (err) {
-      console.log(err);
-    }
-    console.log('New video uploaded')
-
-  });
-
-  res.json(videos);
-});
-
-// app.delete('/:id', (req, res) => {
-//     const {
-//       params: {
-//         id
-//       }
-//     } = req;
-  
-//     videos = videos.filter(({ id: currentVideoId }) => id !== currentVideoId);
-//     return res.json(videos);
-//   });
-
-app.listen(8080, () => {
-    console.log('Server Started on http://localhost:8080');
+app.listen(PORT, () => {
+    console.log('Server Started on `${PORT}`');
     console.log('Press CTRL + C to stop server');
 });
