@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
-let videos = require('./data/videos.json')
+const videos = __dirname + '../data/videos.json';
+let fetchedvideos = require('videos');
 const fs = require('fs');
+const { v4: uuidv4 } = require('uuid');
 
 router.get('/videos', (req, res) => {
-    res.json(videos);
+    res.json(fetchedvideos);
   });
   
 router.get('/videos/:id', (req, res) => {
@@ -13,14 +15,13 @@ router.get('/videos/:id', (req, res) => {
             id
           }
         } = req;
-        // const videoList = JSON(videos);
-        const parsedVideos = videos.find(({ id: currentVideoId }) => id === currentVideoId);
+        
+        const parsedVideos = fetchedvideos.find(({ id: currentVideoId }) => id === currentVideoId);
         res.json(parsedVideos);
         console.log(parsedVideos);
     });
   
 router.post('/videos/:id', (req, res) => {
-    // const { title, description } = req.body;
     console.log('req body', req.body);
     let newVideo = {
       id: uuidv4(),
