@@ -1,12 +1,13 @@
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || process.argv[2] || 8080;
+const videos = __dirname + './data/videos.json';
 
 const cors = require('cors');
 
-const videoRoutes = require('./routes/videos');
+const videoRoutes = require('./routes/videos.js');
 
-app.use('/routes/videos', videoRoutes);
+app.use('./routes/videos', videoRoutes);
 
 app.use(express.json());
 // app.use(express.static('public/images'));
