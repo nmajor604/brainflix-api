@@ -1,20 +1,17 @@
 const express = require('express');
 const router = require("express").Router();
 const videos = require('../data/videos.json');
-// console.log('videosJson', videos)
-const videoList = []
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 
-videoList.push(videos);
-console.log('VideoList', videoList)
+console.log('Videos', videos)
 
-router.get('/videos', (req, res) => {
+router.get('/', (req, res) => {
     
-    res.send(videoList);
+    res.json(videos);
   });
   
-router.get('/videos/:id', (req, res, videoList) => {
+router.get('/:id', (req, res, videoList) => {
       const {
           params: {
             id
@@ -26,7 +23,7 @@ router.get('/videos/:id', (req, res, videoList) => {
         console.log('ParsedVideos', parsedVideos);
     });
   
-router.post('/videos/:id', (req, res) => {
+router.post('/:id', (req, res) => {
     console.log('req body', req.body);
     let newVideo = {
       id: uuidv4(),
