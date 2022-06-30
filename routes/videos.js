@@ -8,17 +8,17 @@ console.log('Videos', videos)
 
 router.get('/', (req, res) => {
     
-    res.json(videos);
+    res.send(videos);
   });
   
-router.get('/:id', (req, res, videoList) => {
+router.get('/:id', (req, res, videos) => {
       const {
           params: {
             id
           }
         } = req;
         
-        let parsedVideos = videoList.find(({ id: currentVideoId }) => id === currentVideoId);
+        let parsedVideos = videos.find(({ id: currentVideoId }) => id === currentVideoId);
         res.json(parsedVideos);
         console.log('ParsedVideos', parsedVideos);
     });
