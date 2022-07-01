@@ -4,6 +4,8 @@ const videos = require('../data/videos.json');
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 
+
+
 console.log('Videos', videos)
 
 router.get('/', (req, res) => {
@@ -11,7 +13,7 @@ router.get('/', (req, res) => {
     res.send(videos);
   });
   
-router.get('/:id', (req, res, videos) => {
+router.get('/:id', (req, res) => {
       const {
           params: {
             id
@@ -23,14 +25,16 @@ router.get('/:id', (req, res, videos) => {
         console.log('ParsedVideos', parsedVideos);
     });
   
-router.post('/:id', (req, res) => {
-    console.log('req body', req.body);
+router.post('/', (req, res) => {
+    console.log(req.body);
+    const { title, description } = req.body;
+
     let newVideo = {
       id: uuidv4(),
-      title: req.body.title,
+      title,
       channel: 'User Upload',
       image: "https://i.imgur.com/0hi3N4B.jpg",
-      description: req.body.description,
+      description,
       views: "0",
       likes: "0",
       duration: "3:31",
@@ -41,7 +45,7 @@ router.post('/:id', (req, res) => {
 
     console.log('newvideo', newVideo);
     const newVideoString = JSON.stringify(newVideo);
-    fs.writeFile('./data/videos.json', newVideoString, (err) => {
+    fs.writeFile('../data/videos.json', newVideoString, (err) => {
       if (err) {
         res.status(403).json("error, not found");
       }
