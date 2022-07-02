@@ -25,6 +25,7 @@ app.use('/videos', videoRoutes);
 
 app.use((req, res ) => {
   res.status(404).send("Sorry can't find that!")
+  console.log('404 Middleware triggered!')
   
 });
 

@@ -26,7 +26,7 @@ router.get('/:id', (req, res) => {
     });
   
 router.post('/', (req, res) => {
-    console.log(req.body);
+    console.log(req.body.data);
     const { title, description } = req.body;
 
     let newVideo = {
