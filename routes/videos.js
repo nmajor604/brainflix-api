@@ -4,13 +4,11 @@ const videos = require('../data/videos.json');
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 
-
-
 console.log('Videos', videos)
 
 router.get('/', (req, res) => {
-    
     res.send(videos);
+    console.log('Res.send')
   });
   
 router.get('/:id', (req, res) => {
@@ -25,9 +23,10 @@ router.get('/:id', (req, res) => {
         console.log('ParsedVideos', parsedVideos);
     });
   
-router.post('/', (req, res) => {
-    console.log(req.body.data);
-    const { title, description } = req.body;
+router.post('/upload', (req, res) => {
+    console.log(req.body);
+    title = req.body.title;
+    description = req.body.description
 
     let newVideo = {
       id: uuidv4(),
@@ -53,7 +52,7 @@ router.post('/', (req, res) => {
   
     });
   
-    res.json(newVideoString);
+    res.json(videos);
   });
   
 module.exports = router;

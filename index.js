@@ -15,14 +15,6 @@ const videoRoutes = require('./routes/videos.js');
 app.use(express.json());
 app.use('/videos', videoRoutes);
 
-
-app.use('/videos', videoRoutes);
-
-
-// app.use(express.static('public/images'));
-
-
-
 app.use((req, res ) => {
   res.status(404).send("Sorry can't find that!")
   console.log('404 Middleware triggered!')
